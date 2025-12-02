@@ -1,0 +1,27 @@
+# Python cache / compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Airflow logs and local state
+airflow/logs/
+airflow/airflow.db
+airflow/airflow.cfg
+airflow/unittests.cfg
+
+# Shared data volume (runtime artifacts)
+shared_data/
+
+# Environment / secrets
+.env
+airflow/include/drive_service_account.json
+
+# IDE / editor stuff
+.vscode/
+.idea/
+*.code-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
