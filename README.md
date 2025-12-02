@@ -46,7 +46,7 @@ All containers share a Docker volume named **`shared_data`** for file exchange.
 
 ## 2. Repository Structure
 
-
+```text
 airflow-loan-etl-pipeline/
 ├─ airflow/
 │  ├─ dags/
@@ -62,7 +62,7 @@ airflow-loan-etl-pipeline/
 ├─ docker-compose.yml
 ├─ .gitignore
 └─ README.md
-
+```
 
 > **Note:** Sensitive items such as the Google service account JSON and `.env` are intentionally ignored via `.gitignore`.
 
