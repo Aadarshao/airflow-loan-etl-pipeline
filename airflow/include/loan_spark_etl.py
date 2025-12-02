@@ -1,24 +1,21 @@
 """
 PySpark ETL for standardized loan CSV files.
 
-Expected input schema (columns in CSV):
-
+Expected input (per row):
     loan_id, customer_id, created_at, amount, interest_rate,
     tenure_months, status, product_type, branch, credit_score_band
 
-Requirements:
-- Ingest CSV (no ELT) from /shared_data/raw
-- Transform:
-    * Replace NULL values in each column with that column's mode (most frequent non-null value)
-    * Split created_at into created_date (DATE) and created_time (STRING "HH:mm:ss")
-- Generate consolidated insights:
-    * Aggregated metrics grouped by status, product_type, branch:
-        - loan_count
-        - total_amount (sum of amount)
-- Write outputs to /shared_data/output:
-    * cleaned/    -> cleaned loan-level data (Parquet)
-    * aggregates/ -> aggregated insights (Parquet)
+High-level steps:
+- read all CSV files from /shared_data/raw,
+- fill NULL values in each column with that column's mode (most frequent value),
+- split created_at into created_date (DATE) and created_time ("HH:mm:ss"),
+- build aggregated metrics grouped by status, product_type, and branch,
+- write cleaned loan-level data and aggregates as Parquet under /shared_data/output.
+
+The module is triggered from the drive_auto_compress_email Airflow DAG.
+Author: Aadarsh
 """
+
 
 import os
 from typing import Optional, List, Dict
@@ -53,7 +50,7 @@ def _fill_nulls_with_mode(df: DataFrame) -> DataFrame:
     For each column in the DataFrame, compute the mode (most frequent non-null value)
     and fill NULLs in that column with the mode.
 
-    This is a demo-friendly approach for handling missing values.
+    This is a simple, explainable approach for handling missing values.
     """
     for col in df.columns:
         # Compute mode: group by the column, count, order by count desc, ignore nulls

@@ -1,20 +1,14 @@
 """
-Helper functions for interacting with Google Drive using a service account.
+Utilities for interacting with Google Drive using a service account.
 
-Exposes two main functions:
+This module provides:
+- listing files in a given folder with basic filtering, and
+- downloading files to a local path.
 
-- list_files_in_folder(folder_id)
-- download_file_from_drive(file_id, dest_path)
-
-This module expects a service account JSON file at:
-    airflow/include/drive_service_account.json
-
-Inside the container, that path is:
-    /opt/airflow/include/drive_service_account.json
-
-Make sure your service account has access to the shared Google Drive folder
-(either directly or via domain-wide delegation + impersonation if required).
+It is used by the drive_auto_compress_email Airflow DAG.
+Author: Aadarsh
 """
+
 
 import io
 import os

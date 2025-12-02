@@ -1,16 +1,16 @@
 """
-Airflow DAG: drive_auto_compress_email
+Loan data ingestion and ETL pipeline orchestrated with Apache Airflow.
 
-DAG that:
-- Polls a Google Drive folder for new loan_*.csv files every minute
-- Detects fully uploaded files using modifiedTime age
-- Downloads new files to /shared_data/incoming/<filename>
-- Uploads raw + compressed files to MinIO bucket (uploaded-files)
-- Computes sizes + compression ratio
-- Sends an email summary with details
-- Tracks processed Google Drive file_ids in:
-    /opt/airflow/processed_drive_files.json
+This DAG:
+- polls a Google Drive folder for new loan_*.csv files,
+- lands each file into a shared Docker volume,
+- uploads raw and compressed copies to a MinIO bucket,
+- runs a PySpark ETL job to clean and aggregate the loan data,
+- sends an email summary with compression metrics and top loan segments.
+
+Author: Aadarsh
 """
+
 
 import json
 import os
